@@ -5,7 +5,7 @@ grafana:
     links:
         - influxdb:influxdb
     environment:
-        GF_INSTALL_PLUGINS: abhisant-druid-datasource
+        GF_INSTALL_PLUGINS: ${plugins}
         GF_SECURITY_ADMIN_USER: admin
         GF_SECURITY_ADMIN_PASSWORD: admin
         GF_SECURITY_SECRET_KEY: grafana
