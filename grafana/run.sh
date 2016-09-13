@@ -81,4 +81,4 @@ else
   echo "Data Source '"${INFLUXDB_DATA_SOURCE}"' already exists."
 fi
 
-tail -f $GF_PATHS_LOGS/grafana.log/grafana.log
+tail -f $GF_PATHS_LOGS/grafana.log
