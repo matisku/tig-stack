@@ -1,0 +1,30 @@
+log:
+  name: "Grafana"
+  version: "3.0.2-rancher1"
+  description: |
+      (Experimental) Grafana: Beautiful metric & analytic dashboards
+  questions:
+    - variable: http_port
+      description: "http port to access Grafana"
+      label: "Http Port"
+      required: true
+      default: "3000"
+      type: "int"
+    - variable: plugins
+      description: "Coma separated list of Grafana Plugins to be installed plugins."
+      label: "List of Grafana Plugins plugins"
+      required: true
+      default: "abhisant-druid-datasource,alexanderzobnin-zabbix-app,bosun-app,bosun-datasource,crate-datasource,fastweb-openfalcon-datasource,fetzerch-sunandmoon-datasource,grafana-clock-panel,grafana-example-app,grafana-influxdb-08-datasource,grafana-kairosdb-datasource,grafana-piechart-panel,grafana-simple-json-datasource,grafana-worldmap-panel,kentik-app,mtanda-heatmap-epoch-panel,mtanda-histogram-panel,ns1-app,opennms-datasource,percona-percona-app,praj-ams-datasource,raintank-snap-app,raintank-worldping-app,sileht-gnocchi-datasource,sraoss-sunburst-panel,stagemonitor-elasticsearch-app,udoprog-heroic-datasource,voxter-app"
+      type: "string"
+    - variable: http_proxy
+      description: "In case you are at corporate network, setup http_proxy variable"
+      label: "http_proxy"
+      required: false
+      default: ""
+      type: "string"
+    - variable: https_proxy
+      description: "In case you are at corporate network, setup https_proxy variable"
+      label: "https_proxy"
+      required: false
+      default: ""
+      type: "string"
