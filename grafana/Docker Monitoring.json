@@ -63,7 +63,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "${DS_INFLUXDB_LINUX}",
+          "datasource": "${DS_DOCKER_INFLUXDB}",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -152,8 +152,8 @@
               "tags": [
                 {
                   "key": "host",
-                  "operator": "=~",
-                  "value": "/^$hostname$/"
+                  "operator": "=",
+                  "value": "telegraf"
                 }
               ],
               "timeField": "@timestamp"
@@ -202,7 +202,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "${DS_INFLUXDB_LINUX}",
+          "datasource": "${DS_DOCKER_INFLUXDB}",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -291,8 +291,8 @@
               "tags": [
                 {
                   "key": "host",
-                  "operator": "=~",
-                  "value": "/^$hostname$/"
+                  "operator": "=",
+                  "value": "telegraf"
                 }
               ],
               "timeField": "@timestamp"
@@ -350,8 +350,8 @@
               "tags": [
                 {
                   "key": "host",
-                  "operator": "=~",
-                  "value": "/^$hostname$/"
+                  "operator": "=",
+                  "value": "telegraf"
                 }
               ],
               "timeField": "@timestamp"
@@ -409,8 +409,8 @@
               "tags": [
                 {
                   "key": "host",
-                  "operator": "=~",
-                  "value": "/^$hostname$/"
+                  "operator": "=",
+                  "value": "telegraf"
                 }
               ],
               "timeField": "@timestamp"
@@ -468,8 +468,8 @@
               "tags": [
                 {
                   "key": "host",
-                  "operator": "=~",
-                  "value": "/^$hostname$/"
+                  "operator": "=",
+                  "value": "telegraf"
                 }
               ],
               "timeField": "@timestamp"
@@ -518,7 +518,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "${DS_INFLUXDB_LINUX}",
+          "datasource": "${DS_DOCKER_INFLUXDB}",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -610,8 +610,8 @@
               "tags": [
                 {
                   "key": "host",
-                  "operator": "=~",
-                  "value": "/^$hostname$/"
+                  "operator": "=",
+                  "value": "telegraf"
                 }
               ],
               "timeField": "@timestamp"
@@ -652,7 +652,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "${DS_INFLUXDB_LINUX}",
+          "datasource": "${DS_DOCKER_INFLUXDB}",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -752,14 +752,14 @@
               "tags": [
                 {
                   "key": "host",
-                  "operator": "=~",
-                  "value": "/^$hostname$/"
+                  "operator": "=",
+                  "value": "telegraf"
                 },
                 {
                   "condition": "AND",
                   "key": "path",
                   "operator": "=",
-                  "value": "/opt/apps"
+                  "value": "/"
                 }
               ],
               "timeField": "@timestamp"
@@ -815,7 +815,7 @@
             "rgba(237, 129, 40, 0.89)",
             "rgba(245, 54, 54, 0.9)"
           ],
-          "datasource": "${DS_INFLUXDB_LINUX}",
+          "datasource": "${DS_DOCKER_INFLUXDB}",
           "editable": true,
           "error": false,
           "format": "percent",
@@ -915,8 +915,8 @@
               "tags": [
                 {
                   "key": "host",
-                  "operator": "=~",
-                  "value": "/^$hostname$/"
+                  "operator": "=",
+                  "value": "telegraf"
                 }
               ],
               "timeField": "@timestamp"
@@ -945,7 +945,7 @@
             "rgba(237, 129, 40, 0.89)",
             "rgba(245, 54, 54, 0.9)"
           ],
-          "datasource": "${DS_INFLUXDB_LINUX}",
+          "datasource": "${DS_DOCKER_INFLUXDB}",
           "editable": true,
           "error": false,
           "format": "none",
@@ -1045,8 +1045,8 @@
               "tags": [
                 {
                   "key": "host",
-                  "operator": "=~",
-                  "value": "/^$hostname$/"
+                  "operator": "=",
+                  "value": "telegraf"
                 }
               ],
               "timeField": "@timestamp"
@@ -1074,7 +1074,7 @@
             "rgba(237, 129, 40, 0.89)",
             "rgba(50, 172, 45, 0.97)"
           ],
-          "datasource": "${DS_INFLUXDB_LINUX}",
+          "datasource": "${DS_DOCKER_INFLUXDB}",
           "editable": true,
           "error": false,
           "format": "none",
@@ -1175,8 +1175,8 @@
               "tags": [
                 {
                   "key": "host",
-                  "operator": "=~",
-                  "value": "/^$hostname$/"
+                  "operator": "=",
+                  "value": "telegraf"
                 }
               ],
               "timeField": "@timestamp"
@@ -1205,7 +1205,7 @@
             "rgba(237, 129, 40, 0.89)",
             "rgba(50, 172, 45, 0.97)"
           ],
-          "datasource": "${DS_INFLUXDB_LINUX}",
+          "datasource": "${DS_DOCKER_INFLUXDB}",
           "editable": true,
           "error": false,
           "format": "none",
@@ -1290,8 +1290,8 @@
               "tags": [
                 {
                   "key": "host",
-                  "operator": "=~",
-                  "value": "/^$hostname$/"
+                  "operator": "=",
+                  "value": "telegraf"
                 }
               ]
             }
@@ -1319,7 +1319,7 @@
       "panels": [
         {
           "columns": [],
-          "datasource": "${DS_INFLUXDB_LINUX}",
+          "datasource": "${DS_DOCKER_INFLUXDB}",
           "editable": true,
           "error": false,
           "fontSize": "100%",
@@ -1413,8 +1413,8 @@
               "tags": [
                 {
                   "key": "host",
-                  "operator": "=~",
-                  "value": "/^$hostname$/"
+                  "operator": "=",
+                  "value": "telegraf"
                 }
               ]
             }
@@ -1458,28 +1458,14 @@
     ]
   },
   "templating": {
-    "list": [
-      {
-        "current": {},
-        "datasource": "${DS_INFLUXDB_LINUX}",
-        "hide": 0,
-        "includeAll": false,
-        "label": "Docker Hostname",
-        "multi": false,
-        "name": "hostname",
-        "options": [],
-        "query": "SHOW TAG VALUES FROM docker WITH KEY = \"host\"",
-        "refresh": 1,
-        "regex": "",
-        "type": "query"
-      }
-    ]
+    "list": []
   },
   "annotations": {
     "list": []
   },
   "refresh": "10s",
   "schemaVersion": 12,
-  "version": 5,
+  "version": 1,
+  "links": [],
   "gnetId": null
 }
