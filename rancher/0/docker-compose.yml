@@ -1,5 +1,5 @@
 grafana:
-    image: matisq/grafana
+    image: matisq/grafana:latest
     ports: 
         - ${grafana_port}:3000
     links:
@@ -31,7 +31,7 @@ grafana-data:
         - /var/lib/grafana/plugins
 
 influxdb:
-    image: matisq/influxdb
+    image: matisq/influxdb:latest
     ports:
         - ${influx_ui}:8083
         - ${influx_db}:8086
@@ -51,7 +51,7 @@ influxdb-data:
         - /var/lib/influxdb
 
 telegraf:
-    image: matisq/telegraf
+    image: matisq/telegraf:latest
     links:
         - influxdb:influxdb
     environment:
