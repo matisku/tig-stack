@@ -152,8 +152,8 @@
               "tags": [
                 {
                   "key": "host",
-                  "operator": "=",
-                  "value": "telegraf"
+                  "operator": "=~",
+                  "value": "/^$agent$/"
                 }
               ],
               "timeField": "@timestamp"
@@ -291,8 +291,8 @@
               "tags": [
                 {
                   "key": "host",
-                  "operator": "=",
-                  "value": "telegraf"
+                  "operator": "=~",
+                  "value": "/^$agent$/"
                 }
               ],
               "timeField": "@timestamp"
@@ -350,8 +350,8 @@
               "tags": [
                 {
                   "key": "host",
-                  "operator": "=",
-                  "value": "telegraf"
+                  "operator": "=~",
+                  "value": "/^$agent$/"
                 }
               ],
               "timeField": "@timestamp"
@@ -409,8 +409,8 @@
               "tags": [
                 {
                   "key": "host",
-                  "operator": "=",
-                  "value": "telegraf"
+                  "operator": "=~",
+                  "value": "/^$agent$/"
                 }
               ],
               "timeField": "@timestamp"
@@ -468,8 +468,8 @@
               "tags": [
                 {
                   "key": "host",
-                  "operator": "=",
-                  "value": "telegraf"
+                  "operator": "=~",
+                  "value": "/^$agent$/"
                 }
               ],
               "timeField": "@timestamp"
@@ -610,8 +610,8 @@
               "tags": [
                 {
                   "key": "host",
-                  "operator": "=",
-                  "value": "telegraf"
+                  "operator": "=~",
+                  "value": "/^$agent$/"
                 }
               ],
               "timeField": "@timestamp"
@@ -752,8 +752,8 @@
               "tags": [
                 {
                   "key": "host",
-                  "operator": "=",
-                  "value": "telegraf"
+                  "operator": "=~",
+                  "value": "/^$agent$/"
                 },
                 {
                   "condition": "AND",
@@ -915,8 +915,8 @@
               "tags": [
                 {
                   "key": "host",
-                  "operator": "=",
-                  "value": "telegraf"
+                  "operator": "=~",
+                  "value": "/^$agent$/"
                 }
               ],
               "timeField": "@timestamp"
@@ -1045,8 +1045,8 @@
               "tags": [
                 {
                   "key": "host",
-                  "operator": "=",
-                  "value": "telegraf"
+                  "operator": "=~",
+                  "value": "/^$agent$/"
                 }
               ],
               "timeField": "@timestamp"
@@ -1175,8 +1175,8 @@
               "tags": [
                 {
                   "key": "host",
-                  "operator": "=",
-                  "value": "telegraf"
+                  "operator": "=~",
+                  "value": "/^$agent$/"
                 }
               ],
               "timeField": "@timestamp"
@@ -1290,8 +1290,8 @@
               "tags": [
                 {
                   "key": "host",
-                  "operator": "=",
-                  "value": "telegraf"
+                  "operator": "=~",
+                  "value": "/^$agent$/"
                 }
               ]
             }
@@ -1413,8 +1413,8 @@
               "tags": [
                 {
                   "key": "host",
-                  "operator": "=",
-                  "value": "telegraf"
+                  "operator": "=~",
+                  "value": "/^$agent$/"
                 }
               ]
             }
@@ -1458,14 +1458,28 @@
     ]
   },
   "templating": {
-    "list": []
+    "list": [
+      {
+        "type": "query",
+        "datasource": "${DS_DOCKER_INFLUXDB}",
+        "refresh": 1,
+        "name": "agent",
+        "hide": 0,
+        "options": [],
+        "includeAll": false,
+        "multi": false,
+        "query": "SHOW TAG VALUES FROM docker WITH KEY = \"host\"",
+        "regex": "",
+        "current": {}
+      }
+    ]
   },
   "annotations": {
     "list": []
   },
   "refresh": "10s",
   "schemaVersion": 12,
-  "version": 1,
+  "version": 2,
   "links": [],
   "gnetId": null
 }
