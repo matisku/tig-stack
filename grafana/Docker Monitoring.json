@@ -1460,17 +1460,17 @@
   "templating": {
     "list": [
       {
-        "type": "query",
+        "current": {},
         "datasource": "${DS_DOCKER_INFLUXDB}",
-        "refresh": 1,
-        "name": "agent",
         "hide": 0,
-        "options": [],
         "includeAll": false,
         "multi": false,
-        "query": "SHOW TAG VALUES FROM docker WITH KEY = \"host\"",
+        "name": "agent",
+        "options": [],
+        "query": "SHOW TAG VALUES FROM cpu WITH KEY = \"host\"",
+        "refresh": 1,
         "regex": "",
-        "current": {}
+        "type": "query"
       }
     ]
   },
@@ -1479,7 +1479,7 @@
   },
   "refresh": "10s",
   "schemaVersion": 12,
-  "version": 2,
+  "version": 3,
   "links": [],
   "gnetId": null
 }
