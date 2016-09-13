@@ -33,7 +33,7 @@ INFLUXDB_DATA_SOURCE="Docker InfluxDB"
 INFLUXDB_DATA_SOURCE_WEB=`echo ${INFLUXDB_DATA_SOURCE} | sed 's/ /%20/g'`
 
 # Set information about grafana host
-GRAFANA_URL=`hostname -i`
+GRAFANA_URL=`/bin/ip route | head -2 | tail -1 | awk '{print $(NF)}'`
 GRAFANA_PORT="3000"
 GRAFANA_USER="admin"
 GRAFANA_PASSWORD="admin"
