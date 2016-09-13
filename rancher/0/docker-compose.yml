@@ -9,11 +9,11 @@ grafana:
         GF_SECURITY_ADMIN_USER: admin
         GF_SECURITY_ADMIN_PASSWORD: admin
         GF_SECURITY_SECRET_KEY: grafana
-        GF_USERS_ALLOW_SIGN_UP: 'true'
-        GF_USERS_ALLOW_ORG_CREATE: 'true'
-        GF_AUTH_ANONYMOUS_ENABLED: 'true'
+        GF_USERS_ALLOW_SIGN_UP: "true"
+        GF_USERS_ALLOW_ORG_CREATE: "true"
+        GF_AUTH_ANONYMOUS_ENABLED: "true"
         GF_AUTH_ANONYMOUS_ORG_NAME: grafana
-        GF_DASHBOARDS_JSON_ENABLED: 'true'
+        GF_DASHBOARDS_JSON_ENABLED: "true"
         GF_DASHBOARDS_JSON_PATH: /opt/grafana
         http_proxy: ${http_proxy}
         https_proxy: ${https_proxy}
@@ -39,6 +39,8 @@ influxdb:
         INFLUX_DATABASE: "telegraf"
         INLFUX_ADMIN_USER: "grafana"
         INFLUX_ADMIN_PASS: "grafana"
+    labels:
+        io.rancher.sidekicks: influxdb-data
     volumes_from:
         - influxdb-data
 
