@@ -1,0 +1,59 @@
+grafana:
+    image: matisq/grafana:latest
+    ports: 
+        - 3000:3000
+    links:
+        - influxdb:influxdb
+    environment:
+        GF_INSTALL_PLUGINS: "abhisant-druid-datasource,alexanderzobnin-zabbix-app,bosun-app,bosun-datasource,crate-datasource,fastweb-openfalcon-datasource,fetzerch-sunandmoon-datasource,grafana-clock-panel,grafana-example-app,grafana-influxdb-08-datasource,grafana-kairosdb-datasource,grafana-piechart-panel,grafana-simple-json-datasource,grafana-worldmap-panel,kentik-app,mtanda-heatmap-epoch-panel,mtanda-histogram-panel,ns1-app,opennms-datasource,percona-percona-app,praj-ams-datasource,raintank-snap-app,raintank-worldping-app,sileht-gnocchi-datasource,sraoss-sunburst-panel,stagemonitor-elasticsearch-app,udoprog-heroic-datasource,voxter-app"
+        GF_SECURITY_ADMIN_USER: admin
+        GF_SECURITY_ADMIN_PASSWORD: admin
+        GF_SECURITY_SECRET_KEY: grafana
+        GF_USERS_ALLOW_SIGN_UP: "true"
+        GF_USERS_ALLOW_ORG_CREATE: "true"
+        GF_AUTH_ANONYMOUS_ENABLED: "true"
+        GF_AUTH_ANONYMOUS_ORG_NAME: grafana
+        GF_DASHBOARDS_JSON_ENABLED: "true"
+        GF_DASHBOARDS_JSON_PATH: /opt/grafana
+    volumes_from:
+        - grafana-data
+
+grafana-data:
+    image: busybox
+    tty: true
+    volumes:
+        - /var/lib/grafana
+        - /var/log/grafana
+        - /var/lib/grafana/plugins
+
+influxdb:
+    image: matisq/influxdb:latest
+    ports:
+        - 8083:8083
+        - 8086:8086
+    environment:
+        INFLUX_DATABASE: "telegraf"
+        INLFUX_ADMIN_USER: "grafana"
+        INFLUX_ADMIN_PASS: "grafana"
+    volumes_from:
+        - influxdb-data
+
+influxdb-data:
+    image: busybox
+    tty: true
+    volumes:
+        - /var/lib/influxdb
+
+telegraf:
+    image: matisq/telegraf:latest
+    links:
+        - influxdb:influxdb
+    environment:
+        HOST_NAME: "telegraf"
+        INFLUXDB_HOST: "influxdb"
+        INFLUXDB_PORT: "8086"
+        DATABASE: "telegraf"
+    tty: true
+    volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+    privileged: true
