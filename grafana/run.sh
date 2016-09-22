@@ -61,7 +61,7 @@ if [ ${INFLUXDB_DATA_SOURCE_STATUS} != 200 ]
 then
   # If not exists, create one 
   echo "Data Source: '"${INFLUXDB_DATA_SOURCE}"' not found in Grafana configuration"
-  echo "Creating Data Source: '"$INFLUXDB_DATA_SOURCE}"'"
+  echo "Creating Data Source: '"$INFLUXDB_DATA_SOURCE"'"
   curl -L -i \
    -H "Accept: application/json" \
    -H "Content-Type: application/json" \
