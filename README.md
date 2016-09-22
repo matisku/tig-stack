@@ -17,6 +17,6 @@ You can obviously use this stack without Rancher. Just grab [docker-compose.yml]
 
 ## Metadata
 * [![CircleCI](https://circleci.com/gh/matisku/tig-stack.svg?style=svg)](https://circleci.com/gh/matisku/tig-stack)  
-* [matisq/telegraf](https://hub.docker.com/r/matisq/telegraf/) <a href="http://microbadger.com/images/matisq/telegraf" title="Get your own image badge on microbadger.com"><img src="https://images.microbadger.com/badges/image/matisq/telegraf.svg"></a>
-* [matisq/influxdb](https://hub.docker.com/r/matisq/influxdb/) <a href="http://microbadger.com/images/matisq/influxdb" title="Get your own image badge on microbadger.com"><img src="https://images.microbadger.com/badges/image/matisq/influxdb.svg"></a>
-* [matisq/grafana](https://hub.docker.com/r/matisq/grafana/) <a href="http://microbadger.com/images/matisq/grafana" title="Get your own image badge on microbadger.com"><img src="https://images.microbadger.com/badges/image/matisq/grafana.svg"></a>
+* [matisq/telegraf](https://hub.docker.com/r/matisq/telegraf/) [![](https://images.microbadger.com/badges/image/matisq/telegraf.svg)](http://microbadger.com/images/matisq/telegraf "Get your own image badge on microbadger.com")
+* [matisq/influxdb](https://hub.docker.com/r/matisq/influxdb/) [![](https://images.microbadger.com/badges/image/matisq/influxdb.svg)](http://microbadger.com/images/matisq/influxdb "Get your own image badge on microbadger.com")
+* [matisq/grafana](https://hub.docker.com/r/matisq/grafana/) [![](https://images.microbadger.com/badges/image/matisq/grafana.svg)](http://microbadger.com/images/matisq/grafana "Get your own image badge on microbadger.com")
