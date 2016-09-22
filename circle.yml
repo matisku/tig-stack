@@ -10,8 +10,7 @@ dependencies:
 
 test:
   pre:
-    - docker-compose pull
-    - docker-compose up -d
+    - docker-compose -f docker-compose-circleci.yml up -d
     - docker ps
     - docker-compose logs; sleep 3
     - docker-compose logs; sleep 3
