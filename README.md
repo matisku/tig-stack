@@ -12,10 +12,10 @@ To use it add custom [rancher-catalog](https://github.com/matisku/rancher-catalo
 ## What if I don't want to use Rancher?
 You can obviously use this stack without Rancher. Just grab [docker-compose.yml](https://raw.githubusercontent.com/matisku/tig-stack/master/docker-compose.yml) file amd start your stack as usual.
 ```bash
-mkdir tig-stack
-cd tig-stack
-curl -OL https://raw.githubusercontent.com/matisku/tig-stack/master/docker-compose.yml
-docker-compose up -d
+$ mkdir tig-stack
+$ cd tig-stack
+$ curl -OL https://raw.githubusercontent.com/matisku/tig-stack/master/docker-compose.yml
+$ docker-compose up -d
 ```
 
 ## Environment
