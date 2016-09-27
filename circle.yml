@@ -21,4 +21,4 @@ test:
     - wget http://localhost:3001 -O grafana.html
     - wget http://localhost:8083 -O influxdb.html
     - mv *.html $CIRCLE_ARTIFACTS
-    - killall --wait docker
+    - sudo killall --wait docker
