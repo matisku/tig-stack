@@ -4,6 +4,9 @@ machine:
   services:
     - docker
 
+environment:
+  PORTS: "3001 8083 8086"
+
 dependencies:
   override:
     - docker info
@@ -14,6 +17,8 @@ test:
     - docker ps
     - docker-compose logs; sleep 3
   override:
-    - curl --retry 10 --retry-delay 5 -v http://localhost:3001
-    - curl --retry 10 --retry-delay 5 -v http://localhost:8083
-    - curl --retry 10 --retry-delay 5 -v http://localhost:8086
+    - for port in $PORTS do; curl --retry 10 --retry-delay 5 -v http://localhost:${port}; done
+  post:
+    - for port in $PORTS do; curl -OL http://localhost:${port}; done
+    - mv *.html $CIRCLE_ARTIFACTS
+    - killall --wait docker
