@@ -16,8 +16,8 @@ test:
     - docker ps
     - docker-compose logs; sleep 3
   override:
-    - for port in $PORTS do; curl --retry 10 --retry-delay 5 -v http://localhost:${port}; done
+    - for port in $PORTS; do curl --retry 10 --retry-delay 5 -v http://localhost:${port}; done
   post:
-    - for port in $PORTS do; curl -OL http://localhost:${port}; done
+    - for port in $PORTS; do curl -OL http://localhost:${port}; done
     - mv *.html $CIRCLE_ARTIFACTS
     - killall --wait docker
