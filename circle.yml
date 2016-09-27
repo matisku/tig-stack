@@ -3,8 +3,6 @@
 machine:
   services:
     - docker
-  environment:
-    PORTS: "3001 8083 8086"
 
 dependencies:
   override:
@@ -16,8 +14,11 @@ test:
     - docker ps
     - docker-compose logs; sleep 3
   override:
-    - for port in $PORTS; do curl --retry 10 --retry-delay 5 -v http://localhost:${port}; done
+    - curl --retry 10 --retry-delay 5 -v http://localhost:3001
+    - curl --retry 10 --retry-delay 5 -v http://localhost:8083
+    - curl --retry 10 --retry-delay 5 -v http://localhost:8086
   post:
-    - for port in $PORTS; do curl -OL http://localhost:${port}; done
+    - wget http://localhost:3001 -O grafana.html
+    - wget http://localhost:8083 -O influxdb.html
     - mv *.html $CIRCLE_ARTIFACTS
     - killall --wait docker
