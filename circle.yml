@@ -3,9 +3,8 @@
 machine:
   services:
     - docker
-
-environment:
-  PORTS: "3001 8083 8086"
+  environment:
+    PORTS: "3001 8083 8086"
 
 dependencies:
   override:
