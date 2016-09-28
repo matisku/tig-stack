@@ -1,0 +1,14 @@
+---
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - docker-compose -f docker-compose-circleci.yml up -d
+  - sleep 15
+  - docker-compose logs
+
+script:
+    - wget http://localhost:3001 -O grafana.html
+    - wget http://localhost:8083 -O influxdb.html
