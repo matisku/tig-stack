@@ -17,6 +17,7 @@ grafana:
         GF_DASHBOARDS_JSON_PATH: /opt/grafana
     volumes_from:
         - grafana-data
+    restart: always
 
 grafana-data:
     image: busybox
