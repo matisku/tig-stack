@@ -11,7 +11,13 @@ if [ ! -z ${GF_INSTALL_PLUGINS} ]; then
   OLDIFS=$IFS
   IFS=','
   for plugin in ${GF_INSTALL_PLUGINS}; do
-    grafana-cli plugins install ${plugin}
+    if [ ! -d ${GF_PATHS_PLUGINS}/${plugin} ]
+    then
+      echo "Plugin ${plugin} not installed. Starting installation."
+      grafana-cli plugins install ${plugin}
+    else 
+      echo "Plugin ${plugin} already installed. Skipping"
+    fi
   done
   IFS=$OLDIFS
 fi
