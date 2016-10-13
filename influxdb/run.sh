@@ -3,6 +3,7 @@
 set -m
 CONFIG_TEMPLATE="/influxdb.template.conf"
 CONFIG_FILE="/etc/influxdb/influxdb.conf"
+CURR_TIMESTAMP=`date +%s`
 
 INFLUX_HOST="localhost"
 INFLUX_API_PORT="8086"
@@ -13,8 +14,8 @@ INFLUX_API_PORT="8086"
 [ "${INFLUX_DATABASE}" = "" ] &&
         JENKINS_BIN="telegraf"
 
-mv -v $CONFIG_FILE $CONFIG_FILE".orig"
-mv -v $CONFIG_TEMPLATE $CONFIG_FILE
+mv -v $CONFIG_FILE $CONFIG_FILE.$CURR_TIMESTAMP
+cp -v $CONFIG_TEMPLATE $CONFIG_FILE
 
 exec influxd -config=$CONFIG_FILE 1>>/var/log/influxdb/influxdb.log 2>&1 &
 sleep 5
