@@ -8,7 +8,7 @@ chown -R grafana:grafana "$GF_PATHS_DATA" "$GF_PATHS_LOGS"
 chown -R grafana:grafana /etc/grafana
 
 # This will be used in the future
-#plugins=`grafana-cli plugins list-remote | awk '{print $2}'`
+#plugins=`grafana-cli plugins list-remote | awk '{print $2}'| grep "-"`
 #for i in $plugins; do grafana-cli plugins install $i; done
 
 if [ ! -z ${GF_INSTALL_PLUGINS} ]; then
