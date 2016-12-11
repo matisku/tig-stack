@@ -46,6 +46,9 @@ $ docker-compose up -d
 Grafana: `3000`
 InfluxDB: `8083`, `8086`
 
+## License
+Copyright © 2016 Mateusz Trojak. See LICENSE for details.
+
 ## TODO
 * Add more Grafs
 
