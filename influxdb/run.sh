@@ -7,8 +7,8 @@ CURR_TIMESTAMP=`date +%s`
 
 INFLUX_HOST="localhost"
 INFLUX_API_PORT="8086"
-[ "${INLFUX_ADMIN_USER}" = "" ] &&
-        INLFUX_ADMIN_USER="grafana"
+[ "${INFLUX_ADMIN_USER}" = "" ] &&
+        INFLUX_ADMIN_USER="grafana"
 [ "${INFLUX_ADMIN_PASS}" = "" ] &&
         INFLUX_ADMIN_PASS="grafana"
 [ "${INFLUX_DATABASE}" = "" ] &&
@@ -20,14 +20,13 @@ cp -v $CONFIG_TEMPLATE $CONFIG_FILE
 exec influxd -config=$CONFIG_FILE 1>>/var/log/influxdb/influxdb.log 2>&1 &
 sleep 5
 
-USER_EXISTS=`influx -host=${INFLUX_HOST} -port=${INFLUX_API_PORT} -execute="SHOW USERS" | awk '{print $1}' | grep "${INLFUX_ADMIN_USER}" | wc -l`
+USER_EXISTS=`influx -host=${INFLUX_HOST} -port=${INFLUX_API_PORT} -execute="SHOW USERS" | awk '{print $1}' | grep "${INFLUX_ADMIN_USER}" | wc -l`
 
 if [ -n ${USER_EXISTS} ]
 then
-  influx -host=${INFLUX_HOST} -port=${INFLUX_API_PORT} -execute="CREATE USER ${INLFUX_ADMIN_USER} WITH PASSWORD '${INFLUX_ADMIN_PASS}' WITH ALL PRIVILEGES"
-  influx -host=${INFLUX_HOST} -port=${INFLUX_API_PORT} -username=${INLFUX_ADMIN_USER} -password="${INFLUX_ADMIN_PASS}" -execute="create database ${INFLUX_DATABASE}"
-  influx -host=${INFLUX_HOST} -port=${INFLUX_API_PORT} -username=${INLFUX_ADMIN_USER} -password="${INFLUX_ADMIN_PASS}" -execute="grant all PRIVILEGES on ${INFLUX_DATABASE} to ${INLFUX_ADMIN_USER}"
+  influx -host=${INFLUX_HOST} -port=${INFLUX_API_PORT} -execute="CREATE USER ${INFLUX_ADMIN_USER} WITH PASSWORD '${INFLUX_ADMIN_PASS}' WITH ALL PRIVILEGES"
+  influx -host=${INFLUX_HOST} -port=${INFLUX_API_PORT} -username=${INFLUX_ADMIN_USER} -password="${INFLUX_ADMIN_PASS}" -execute="create database ${INFLUX_DATABASE}"
+  influx -host=${INFLUX_HOST} -port=${INFLUX_API_PORT} -username=${INFLUX_ADMIN_USER} -password="${INFLUX_ADMIN_PASS}" -execute="grant all PRIVILEGES on ${INFLUX_DATABASE} to ${INLFUX_ADMIN_USER}"
 fi 
 
 tail -f /var/log/influxdb/influxdb.log
-
