@@ -11,4 +11,4 @@ before_install:
 
 script:
     - wget http://localhost:3001 -O grafana.html
-    - wget http://localhost:8083 -O influxdb.html
+    - wget http://localhost:8086 -O influxdb.html
