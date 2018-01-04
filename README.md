@@ -47,7 +47,7 @@ Grafana: `3000`
 InfluxDB: `8083`, `8086`
 
 ## License
-Copyright © 2016-2017 Mateusz Trojak. See LICENSE for details.
+Copyright © 2016-2018 Mateusz Trojak. See LICENSE for details.
 
 ## TODO
 * Add more Grafs
