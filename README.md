@@ -10,7 +10,7 @@ TIG stack is created for [Rancher](http://rancher.com/). If you are not fammilia
 To use it add custom [rancher-catalog](https://github.com/matisku/rancher-catalog) to the Rancher configuration, and within only one click, you are able to monitor your Docker Instance automatically!  
 
 ## What if I don't want to use Rancher?
-You can obviously use this stack without Rancher. Just grab [docker-compose.yml](https://raw.githubusercontent.com/matisku/tig-stack/master/docker-compose.yml) file amd start your stack as usual.
+You can obviously use this stack without Rancher. Just grab [docker-compose.yml](https://raw.githubusercontent.com/matisku/tig-stack/master/docker-compose.yml) file and start your stack as usual.
 ```bash
 $ mkdir tig-stack
 $ cd tig-stack
@@ -18,9 +18,19 @@ $ curl -OL https://raw.githubusercontent.com/matisku/tig-stack/master/docker-com
 $ docker-compose up -d
 ```
 
+If needed you can clone this repository and build `tig-stack` locally. For this `docker-compose-circleci.yml` can be used
+```bash
+$ git clone https://github.com/matisku/tig-stack.git
+$ cd tig-stack
+$ docker-compose -f docker-compose-circleci.yml up -d
+```
+
+## Additional Info
+* By default Grafana will have all available plugins installed.   
+* To access grafana go to: `http://localhost:30001`   
+
 ## Environment
 ### Grafana  
-By default Grafana will have all available plugins installed.
 `GF_SECURITY_ADMIN_USER` - Admin Username. Default: `admin`  
 `GF_SECURITY_ADMIN_PASSWORD`- Admin User Password. Default:`admin`  
 `GF_SECURITY_SECRET_KEY` - Secret key. Default: `grafana`  
@@ -44,8 +54,12 @@ By default Grafana will have all available plugins installed.
 `DATABASE` - InfluxDB Database where telegraf stores data. Default: `"telegraf"`  
 
 ## Ports
-Grafana: `3000`
-InfluxDB: `8083`, `8086`
+Grafana:   
+    - `3000` - in Docker   
+    - `3001` - on Host   
+InfluxDB:   
+    - `8083`   
+    - `8086`   
 
 ## License
 Copyright © 2016-2018 Mateusz Trojak. See LICENSE for details.
