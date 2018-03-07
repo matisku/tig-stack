@@ -20,7 +20,7 @@ $ docker-compose up -d
 
 ## Environment
 ### Grafana  
-`GF_INSTALL_PLUGINS` - In default all plugins are installed  
+By default Grafana will have all available plugins installed.
 `GF_SECURITY_ADMIN_USER` - Admin Username. Default: `admin`  
 `GF_SECURITY_ADMIN_PASSWORD`- Admin User Password. Default:`admin`  
 `GF_SECURITY_SECRET_KEY` - Secret key. Default: `grafana`  
@@ -30,6 +30,7 @@ $ docker-compose up -d
 `GF_AUTH_ANONYMOUS_ORG_NAME` - Anonymus defaul Org Name. Default: `grafana`   
 `GF_DASHBOARDS_JSON_ENABLED` - Dashboards as JSON enabled. Default: `"true"`   
 `GF_DASHBOARDS_JSON_PATH` - Path where JSON Dashboards are stored. Default: `/opt/grafana`   
+
 
 ### InfluxDB  
 `INFLUX_DATABASE` - IndluxDB Database Name. Default:  `"telegraf"`   
