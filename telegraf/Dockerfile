@@ -1,7 +1,9 @@
 FROM telegraf:latest
 MAINTAINER Mateusz Trojak <mateusz.trojak@gmail.com>
-LABEL version="1.0"
-LABEL description="Telegraf Image with added system variables"
+LABEL version="1.1"
+LABEL description="Telegraf docker image with custom setup"
+
+USER root
 
 ADD telegraf.template.conf /telegraf.template.conf
 
