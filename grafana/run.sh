@@ -3,6 +3,7 @@
 : "${GF_PATHS_DATA:=/var/lib/grafana}"
 : "${GF_PATHS_LOGS:=/var/log/grafana}"
 : "${GF_PATHS_PLUGINS:=/var/lib/grafana/plugins}"
+: "${GF_PATHS_PROVISIONING:=/etc/grafana/provisioning}"
 
 chown -R grafana:grafana "$GF_PATHS_DATA" "$GF_PATHS_LOGS"
 chown -R grafana:grafana /etc/grafana
@@ -10,12 +11,17 @@ chown -R grafana:grafana /etc/grafana
 # Install all available plugins
 GRAFANA_PLUGINS=`grafana-cli plugins list-remote | awk '{print $2}'| grep "-"`
 for plugin in ${GRAFANA_PLUGINS}; 
-do 
-  grafana-cli plugins install $plugin || true;
+do
+  if [ ! -d ${GF_PATHS_PLUGINS}/$plugin ]
+  then
+    grafana-cli plugins install $plugin || true;
+  else
+    echo "Plugin $plugin already installed"
+  fi
 done
 
 # Start grafana with gosu
-exec gosu grafana /usr/sbin/grafana-server  \
+exec gosu grafana /usr/share/grafana/bin/grafana-server  \
   --homepath=/usr/share/grafana             \
   --config=/etc/grafana/grafana.ini         \
   cfg:default.paths.data="$GF_PATHS_DATA"   \
