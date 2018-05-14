@@ -14,7 +14,7 @@ grafana:
         GF_AUTH_ANONYMOUS_ORG_NAME: grafana
         GF_DASHBOARDS_JSON_ENABLED: "true"
         GF_DASHBOARDS_JSON_PATH: /opt/grafana
-        GRAFANA_PLUGINS_ENABLED: "true"
+        GRAFANA_PLUGINS_ENABLED: "false"
     volumes_from:
         - grafana-data
 

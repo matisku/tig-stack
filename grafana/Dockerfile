@@ -1,6 +1,6 @@
 FROM grafana/grafana:latest
 MAINTAINER Mateusz Trojak <mateusz.trojak@gmail.com>
-LABEL version="1.1"
+LABEL version="1.2"
 LABEL description="Grafana docker image with custom setup"
 
 USER root
