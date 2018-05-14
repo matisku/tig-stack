@@ -25,6 +25,13 @@ $ cd tig-stack
 $ docker-compose -f docker-compose-circleci.yml up -d
 ```
 
+If you don't need to install any Grafana plugins use `docker-compose-noplugins.yml`
+```bash
+$ git clone https://github.com/matisku/tig-stack.git
+$ cd tig-stack
+$ docker-compose -f docker-compose-noplugins.yml up -d
+```
+
 ## Additional Info
 * By default Grafana will have all available plugins installed.   
 * To access grafana go to: `http://localhost:30001`   
@@ -40,7 +47,7 @@ $ docker-compose -f docker-compose-circleci.yml up -d
 `GF_AUTH_ANONYMOUS_ORG_NAME` - Anonymus defaul Org Name. Default: `grafana`   
 `GF_DASHBOARDS_JSON_ENABLED` - Dashboards as JSON enabled. Default: `"true"`   
 `GF_DASHBOARDS_JSON_PATH` - Path where JSON Dashboards are stored. Default: `/opt/grafana`   
-
+`GRAFANA_PLUGINS_ENABLED` - Install all available Grafana Plugins. Default: `true`
 
 ### InfluxDB  
 `INFLUX_DATABASE` - IndluxDB Database Name. Default:  `"telegraf"`   

@@ -9,16 +9,19 @@ chown -R grafana:grafana "$GF_PATHS_DATA" "$GF_PATHS_LOGS"
 chown -R grafana:grafana /etc/grafana
 
 # Install all available plugins
-GRAFANA_PLUGINS=`grafana-cli plugins list-remote | awk '{print $2}'| grep "-"`
-for plugin in ${GRAFANA_PLUGINS}; 
-do
-  if [ ! -d ${GF_PATHS_PLUGINS}/$plugin ]
-  then
-    grafana-cli plugins install $plugin || true;
-  else
-    echo "Plugin $plugin already installed"
-  fi
-done
+if [ "${GRAFANA_PLUGINS_ENABLED}" != "false" ]
+then
+  GRAFANA_PLUGINS=`grafana-cli plugins list-remote | awk '{print $2}'| grep "-"`
+  for plugin in ${GRAFANA_PLUGINS}; 
+  do
+    if [ ! -d ${GF_PATHS_PLUGINS}/$plugin ]
+    then
+      grafana-cli plugins install $plugin || true;
+    else
+      echo "Plugin $plugin already installed"
+    fi
+  done
+fi
 
 # Start grafana with gosu
 exec gosu grafana /usr/share/grafana/bin/grafana-server  \
