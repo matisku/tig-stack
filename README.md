@@ -1,4 +1,4 @@
-# Telegraf InfluxDB Grafana Stack
+# Telegraf InfluxDB Grafana Stack 
 
 ## What is inside TIG Stack
 * [Telegraf](https://hub.docker.com/r/matisq/telegraf/) - Gathers cpu,mem,net,docker data and sends it to InfluxDB
@@ -73,6 +73,7 @@ Copyright © 2016-2018 Mateusz Trojak. See LICENSE for details.
 
 ## TODO
 * Add more Grafs
+
 
 ## Metadata
 * [![Build Status](https://travis-ci.org/matisku/tig-stack.svg?branch=master)](https://travis-ci.org/matisku/tig-stack)  [![CircleCI](https://circleci.com/gh/matisku/tig-stack.svg?style=svg)](https://circleci.com/gh/matisku/tig-stack)
