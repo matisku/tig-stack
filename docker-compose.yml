@@ -1,8 +1,4 @@
 ---
-# Version 3.7 for compose files corresponds with
-# Docker engine 18.06.0 and newer (per Docker docs).
-version: "3.7"
-
 grafana:
     image: matisq/grafana:latest
     ports:
