@@ -1,5 +1,0 @@
-name: TIG Stack
-description: |
-  (Experimental) Telegraf, InfluxDB, Grafana for docker monitoring. 
-version: v0.0.1
-category: Monitoring

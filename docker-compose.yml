@@ -1,6 +1,11 @@
+---
+# Version 3.7 for compose files corresponds with
+# Docker engine 18.06.0 and newer (per Docker docs).
+version: "3.7"
+
 grafana:
     image: matisq/grafana:latest
-    ports: 
+    ports:
         - 3000:3000
     links:
         - influxdb:influxdb
@@ -44,16 +49,10 @@ influxdb-data:
     volumes:
         - /var/lib/influxdb
 
+# Perform local build instead of pulling the stock image from DockerHub.
+# to capture new telegraf config. Expose the gRPC port on telegraf.
 telegraf:
-    image: matisq/telegraf:latest
-    links:
-        - influxdb:influxdb
-    environment:
-        HOST_NAME: "telegraf"
-        INFLUXDB_HOST: "influxdb"
-        INFLUXDB_PORT: "8086"
-        DATABASE: "telegraf"
-    tty: true
-    volumes:
-        - /var/run/docker.sock:/var/run/docker.sock
-    privileged: true
+    build: telegraf
+    ports:
+        - 42518:42518
+...
