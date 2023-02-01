@@ -1,4 +1,17 @@
 # Telegraf InfluxDB Grafana Stack
+Edits made in this fork (origin project from Mateusz Trojak):
+  * Modified `telegraf/telegraf.template.conf` to only contain the relevant
+    components for Cisco gRPC telemetry on IOS-XE over TCP 42518.
+  * Modified `docker-compose.yml` to build the `telegraf` service locally
+    rather than pull down the Docker Hub image. All other services are
+    pulled from Docker Hub as they remain unchanged.
+  * Deleted these unused files/directories to reduce distraction:
+    * `docker-compose-circleci.yml`
+    * `docker-compose-noplugins.yml`
+    * `circle.yml`
+    * `rancher/`
+    * `grafana/`
+    * `influxdb/`
 
 ## What is inside TIG Stack
 * [Telegraf](https://hub.docker.com/r/matisq/telegraf/) - Gathers cpu,mem,net,docker data and sends it to InfluxDB
