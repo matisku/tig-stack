@@ -1,6 +1,7 @@
+---
 grafana:
     image: matisq/grafana:latest
-    ports: 
+    ports:
         - 3000:3000
     links:
         - influxdb:influxdb
@@ -44,8 +45,13 @@ influxdb-data:
     volumes:
         - /var/lib/influxdb
 
+# Perform local build instead of pulling the stock image from DockerHub.
+# to capture new telegraf config. Expose the gRPC port on telegraf.
+# Retain all existing env vars and other configuration.
 telegraf:
-    image: matisq/telegraf:latest
+    build: telegraf
+    ports:
+        - 42518:42518
     links:
         - influxdb:influxdb
     environment:
@@ -57,3 +63,4 @@ telegraf:
     volumes:
         - /var/run/docker.sock:/var/run/docker.sock
     privileged: true
+...
