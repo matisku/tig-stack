@@ -102,6 +102,9 @@ For safe merges, configure branch protection in GitHub so that:
 ## Security Notes
 The default credentials in `.env.example` are for local testing only. For any shared or production use, override them in `.env` and restrict network exposure.
 
+## Trivy Ignore
+If upstream Telegraf releases have not yet incorporated security fixes, this repo temporarily suppresses known CVEs in `.trivyignore`. Remove entries once the base Telegraf image is upgraded to fixed versions.
+
 ## Ports
 Grafana:   
     - `3000` - in Docker   

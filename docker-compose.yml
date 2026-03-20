@@ -50,7 +50,8 @@ services:
   # Retain all existing env vars and other configuration.
   telegraf:
     image: tig-stack-telegraf:local
-    build: ./telegraf
+    build:
+      context: ./telegraf
     ports:
       - "${TELEGRAF_GRPC_PORT:-42518}:42518"
     environment:

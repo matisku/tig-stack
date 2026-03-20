@@ -110,6 +110,9 @@ jobs:
           ignore-unfixed: true
           exit-code: 1
           skip-setup-trivy: true
+        env:
+          TRIVY_IGNOREFILE: .trivyignore
+          TRIVY_DISABLE_VEX_NOTICE: "true"
 
       - name: Security scan Grafana image (Trivy)
         uses: aquasecurity/trivy-action@v0.35.0
@@ -120,6 +123,9 @@ jobs:
           ignore-unfixed: true
           exit-code: 1
           skip-setup-trivy: true
+        env:
+          TRIVY_IGNOREFILE: .trivyignore
+          TRIVY_DISABLE_VEX_NOTICE: "true"
 
       - name: Security scan InfluxDB image (Trivy)
         uses: aquasecurity/trivy-action@v0.35.0
@@ -130,6 +136,9 @@ jobs:
           ignore-unfixed: true
           exit-code: 1
           skip-setup-trivy: true
+        env:
+          TRIVY_IGNOREFILE: .trivyignore
+          TRIVY_DISABLE_VEX_NOTICE: "true"
 
       - name: Generate SBOM (Telegraf image)
         uses: anchore/sbom-action@v0.17.2

@@ -11,4 +11,3 @@ ADD run.sh /run.sh
 RUN chmod +x /*.sh
 
 CMD ["/run.sh"]
-
