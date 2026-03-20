@@ -1,3 +1,7 @@
+# Status: Obsolete
+This repository is archived for reference. The original CI/CD (CircleCI/Travis) and Docker Hub automated builds no longer function as configured, and the published Docker images are stale. No active maintenance is planned.
+
+
 # Telegraf InfluxDB Grafana Stack
 Edits made in this fork (origin project from Mateusz Trojak):
   * Modified `telegraf/telegraf.template.conf` to only contain the relevant
