@@ -98,32 +98,38 @@ jobs:
           restore-keys: |
             trivy-${{ runner.os }}-
 
+      - name: Setup Trivy
+        uses: aquasecurity/setup-trivy@v0.2.4
+
       - name: Security scan Telegraf image (Trivy)
-        uses: aquasecurity/trivy-action@v0.28.0
+        uses: aquasecurity/trivy-action@v0.35.0
         with:
           image-ref: tig-stack-telegraf:local
           severity: CRITICAL,HIGH
           format: table
           ignore-unfixed: true
           exit-code: 1
+          skip-setup-trivy: true
 
       - name: Security scan Grafana image (Trivy)
-        uses: aquasecurity/trivy-action@v0.28.0
+        uses: aquasecurity/trivy-action@v0.35.0
         with:
           image-ref: matisq/grafana:${{ env.GRAFANA_TAG }}
           severity: CRITICAL,HIGH
           format: table
           ignore-unfixed: true
           exit-code: 1
+          skip-setup-trivy: true
 
       - name: Security scan InfluxDB image (Trivy)
-        uses: aquasecurity/trivy-action@v0.28.0
+        uses: aquasecurity/trivy-action@v0.35.0
         with:
           image-ref: matisq/influxdb:${{ env.INFLUXDB_TAG }}
           severity: CRITICAL,HIGH
           format: table
           ignore-unfixed: true
           exit-code: 1
+          skip-setup-trivy: true
 
       - name: Generate SBOM (Telegraf image)
         uses: anchore/sbom-action@v0.17.2
