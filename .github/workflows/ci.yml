@@ -99,7 +99,7 @@ jobs:
             trivy-${{ runner.os }}-
 
       - name: Setup Trivy
-        uses: aquasecurity/setup-trivy@v0.2.4
+        uses: aquasecurity/setup-trivy@v0.2.6
 
       - name: Security scan Telegraf image (Trivy)
         uses: aquasecurity/trivy-action@v0.35.0
