@@ -1,66 +1,68 @@
----
-grafana:
-    image: matisq/grafana:latest
+version: "3.8"
+
+services:
+  grafana:
+    image: matisq/grafana:${GRAFANA_TAG:-latest}
     ports:
-        - 3000:3000
-    links:
-        - influxdb:influxdb
+      - "${GRAFANA_PORT:-3000}:3000"
     environment:
-        GF_SECURITY_ADMIN_USER: admin
-        GF_SECURITY_ADMIN_PASSWORD: admin
-        GF_SECURITY_SECRET_KEY: grafana
-        GF_USERS_ALLOW_SIGN_UP: "true"
-        GF_USERS_ALLOW_ORG_CREATE: "true"
-        GF_AUTH_ANONYMOUS_ENABLED: "true"
-        GF_AUTH_ANONYMOUS_ORG_NAME: grafana
-        GF_DASHBOARDS_JSON_ENABLED: "true"
-        GF_DASHBOARDS_JSON_PATH: /opt/grafana
-    volumes_from:
-        - grafana-data
+      GF_SECURITY_ADMIN_USER: ${GF_SECURITY_ADMIN_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GF_SECURITY_ADMIN_PASSWORD:-admin}
+      GF_SECURITY_SECRET_KEY: ${GF_SECURITY_SECRET_KEY:-grafana}
+      GF_USERS_ALLOW_SIGN_UP: ${GF_USERS_ALLOW_SIGN_UP:-true}
+      GF_USERS_ALLOW_ORG_CREATE: ${GF_USERS_ALLOW_ORG_CREATE:-true}
+      GF_AUTH_ANONYMOUS_ENABLED: ${GF_AUTH_ANONYMOUS_ENABLED:-true}
+      GF_AUTH_ANONYMOUS_ORG_NAME: ${GF_AUTH_ANONYMOUS_ORG_NAME:-grafana}
+      GF_DASHBOARDS_JSON_ENABLED: ${GF_DASHBOARDS_JSON_ENABLED:-true}
+      GF_DASHBOARDS_JSON_PATH: ${GF_DASHBOARDS_JSON_PATH:-/opt/grafana}
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - grafana-logs:/var/log/grafana
+      - grafana-plugins:/var/lib/grafana/plugins
     restart: always
+    depends_on:
+      - influxdb
+    healthcheck:
+      test: ["CMD-SHELL", "if command -v wget >/dev/null 2>&1; then wget -qO- http://localhost:3000/api/health >/dev/null 2>&1; elif command -v curl >/dev/null 2>&1; then curl -fsS http://localhost:3000/api/health >/dev/null 2>&1; else exit 0; fi"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
 
-grafana-data:
-    image: busybox
-    tty: true
-    volumes:
-        - /var/lib/grafana
-        - /var/log/grafana
-        - /var/lib/grafana/plugins
-
-influxdb:
-    image: matisq/influxdb:latest
+  influxdb:
+    image: matisq/influxdb:${INFLUXDB_TAG:-latest}
     ports:
-        - 8083:8083
-        - 8086:8086
+      - "${INFLUXDB_ADMIN_PORT:-8083}:8083"
+      - "${INFLUXDB_HTTP_PORT:-8086}:8086"
     environment:
-        INFLUX_DATABASE: "telegraf"
-        INLFUX_ADMIN_USER: "grafana"
-        INFLUX_ADMIN_PASS: "grafana"
-    volumes_from:
-        - influxdb-data
-
-influxdb-data:
-    image: busybox
-    tty: true
+      INFLUX_DATABASE: ${INFLUX_DATABASE:-telegraf}
+      INLFUX_ADMIN_USER: ${INLFUX_ADMIN_USER:-grafana}
+      INFLUX_ADMIN_PASS: ${INFLUX_ADMIN_PASS:-grafana}
     volumes:
-        - /var/lib/influxdb
+      - influxdb-data:/var/lib/influxdb
+    healthcheck:
+      test: ["CMD-SHELL", "if command -v wget >/dev/null 2>&1; then wget -qO- http://localhost:8086/ping >/dev/null 2>&1; elif command -v curl >/dev/null 2>&1; then curl -fsS http://localhost:8086/ping >/dev/null 2>&1; else exit 0; fi"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
 
-# Perform local build instead of pulling the stock image from DockerHub.
-# to capture new telegraf config. Expose the gRPC port on telegraf.
-# Retain all existing env vars and other configuration.
-telegraf:
-    build: telegraf
+  # Perform local build instead of pulling the stock image from DockerHub.
+  # to capture new telegraf config. Expose the gRPC port on telegraf.
+  # Retain all existing env vars and other configuration.
+  telegraf:
+    image: tig-stack-telegraf:local
+    build: ./telegraf
     ports:
-        - 42518:42518
-    links:
-        - influxdb:influxdb
+      - "${TELEGRAF_GRPC_PORT:-42518}:42518"
     environment:
-        HOST_NAME: "telegraf"
-        INFLUXDB_HOST: "influxdb"
-        INFLUXDB_PORT: "8086"
-        DATABASE: "telegraf"
-    tty: true
-    volumes:
-        - /var/run/docker.sock:/var/run/docker.sock
-    privileged: true
-...
+      HOST_NAME: ${HOST_NAME:-telegraf}
+      INFLUXDB_HOST: ${INFLUXDB_HOST:-influxdb}
+      INFLUXDB_PORT: ${INFLUXDB_PORT:-8086}
+      DATABASE: ${DATABASE:-telegraf}
+    depends_on:
+      - influxdb
+
+volumes:
+  grafana-data:
+  grafana-logs:
+  grafana-plugins:
+  influxdb-data:

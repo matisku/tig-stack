@@ -28,28 +28,48 @@ You can obviously use this stack without Rancher. Just grab [docker-compose.yml]
 $ mkdir tig-stack
 $ cd tig-stack
 $ curl -OL https://raw.githubusercontent.com/matisku/tig-stack/master/docker-compose.yml
-$ docker-compose up -d
+$ docker compose up -d --build
 ```
 
-If needed you can clone this repository and build `tig-stack` locally. For this `docker-compose-circleci.yml` can be used
+If needed you can clone this repository and build `tig-stack` locally:
 ```bash
 $ git clone https://github.com/matisku/tig-stack.git
 $ cd tig-stack
-$ docker-compose -f docker-compose-circleci.yml up -d
-```
-
-If you don't need to install any Grafana plugins use `docker-compose-noplugins.yml`
-```bash
-$ git clone https://github.com/matisku/tig-stack.git
-$ cd tig-stack
-$ docker-compose -f docker-compose-noplugins.yml up -d
+$ docker compose up -d --build
 ```
 
 ## Additional Info
 * By default Grafana will have all available plugins installed.   
-* To access grafana go to: `http://localhost:30001`   
+* To access grafana go to: `http://localhost:3000`   
+* Health checks in `docker-compose.yml` use `wget` inside containers. If your image lacks `wget`, remove or adjust the `healthcheck` blocks.
+
+## CI
+This repo uses GitHub Actions to build the local Telegraf image, bring up the stack with Docker Compose, run smoke and InfluxDB integration checks, and run container security scans with an SBOM artifact.
+
+## Local Workflow
+Common targets are provided via `make`:
+```bash
+$ make up
+$ make test
+$ make logs
+$ make down
+```
+Optional overrides can be placed in a `.env` file. A template is provided in `.env.example`.
+
+## Dependency Updates
+Renovate is configured via `renovate.json` to keep Docker image tags and digests up to date. Major updates require explicit approval.
+
+## Branch Protection
+For safe merges, configure branch protection in GitHub so that:
+1. Pull requests are required for `main`/`master`
+2. The `CI` workflow is required and must pass
+3. Merge is blocked when checks are failing
 
 ## Environment
+### Images
+`GRAFANA_TAG` - Grafana image tag. Default: `latest`  
+`INFLUXDB_TAG` - InfluxDB image tag. Default: `latest`  
+
 ### Grafana  
 `GF_SECURITY_ADMIN_USER` - Admin Username. Default: `admin`  
 `GF_SECURITY_ADMIN_PASSWORD`- Admin User Password. Default:`admin`  
@@ -73,10 +93,19 @@ $ docker-compose -f docker-compose-noplugins.yml up -d
 `INFLUXDB_PORT` - InfluxDB Default Port. Default: `"8086"`  
 `DATABASE` - InfluxDB Database where telegraf stores data. Default: `"telegraf"`  
 
+### Ports (Optional Overrides)
+`GRAFANA_PORT` - Host port for Grafana. Default: `3000`  
+`INFLUXDB_HTTP_PORT` - Host port for InfluxDB HTTP API. Default: `8086`  
+`INFLUXDB_ADMIN_PORT` - Host port for InfluxDB admin UI. Default: `8083`  
+`TELEGRAF_GRPC_PORT` - Host port for Telegraf gRPC. Default: `42518`  
+
+## Security Notes
+The default credentials in `.env.example` are for local testing only. For any shared or production use, override them in `.env` and restrict network exposure.
+
 ## Ports
 Grafana:   
     - `3000` - in Docker   
-    - `3001` - on Host   
+   - `3000` - on Host   
 InfluxDB:   
     - `8083`   
     - `8086`   
@@ -88,7 +117,6 @@ Copyright © 2016-2018 Mateusz Trojak. See LICENSE for details.
 * Add more Grafs
 
 ## Metadata
-* [![Build Status](https://travis-ci.org/matisku/tig-stack.svg?branch=master)](https://travis-ci.org/matisku/tig-stack)  [![CircleCI](https://circleci.com/gh/matisku/tig-stack.svg?style=svg)](https://circleci.com/gh/matisku/tig-stack)
 * [matisq/telegraf](https://hub.docker.com/r/matisq/telegraf/) [![](https://images.microbadger.com/badges/image/matisq/telegraf.svg)](http://microbadger.com/images/matisq/telegraf "Get your own image badge on microbadger.com")
 * [matisq/influxdb](https://hub.docker.com/r/matisq/influxdb/) [![](https://images.microbadger.com/badges/image/matisq/influxdb.svg)](http://microbadger.com/images/matisq/influxdb "Get your own image badge on microbadger.com")
 * [matisq/grafana](https://hub.docker.com/r/matisq/grafana/) [![](https://images.microbadger.com/badges/image/matisq/grafana.svg)](http://microbadger.com/images/matisq/grafana "Get your own image badge on microbadger.com")

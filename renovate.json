@@ -1,0 +1,12 @@
+{
+  "extends": ["config:base"],
+  "enabledManagers": ["docker-compose", "dockerfile"],
+  "pinDigests": true,
+  "packageRules": [
+    {
+      "matchManagers": ["docker-compose", "dockerfile"],
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true
+    }
+  ]
+}

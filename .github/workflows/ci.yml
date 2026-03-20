@@ -1,0 +1,146 @@
+name: CI
+
+on:
+  push:
+    branches: ["main", "master"]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  docker-compose-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GRAFANA_TAG: latest
+      INFLUXDB_TAG: latest
+      GRAFANA_PORT: 3000
+      INFLUXDB_HTTP_PORT: 8086
+      INFLUXDB_ADMIN_PORT: 8083
+      TELEGRAF_GRPC_PORT: 42518
+      INFLUX_DATABASE: telegraf
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show Docker versions
+        run: |
+          docker version
+          docker compose version
+
+      - name: Validate Compose
+        run: docker compose config
+
+      - name: Build and start stack
+        run: |
+          docker compose build --pull
+          docker compose up -d
+          docker compose ps
+
+      - name: Wait for InfluxDB
+        run: |
+          for i in {1..60}; do
+            if curl -fsS "http://localhost:${INFLUXDB_HTTP_PORT}/ping" >/dev/null; then
+              echo "InfluxDB is up"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "InfluxDB did not become ready in time" >&2
+          docker compose logs influxdb
+          exit 1
+
+      - name: Wait for Grafana
+        run: |
+          for i in {1..60}; do
+            if curl -fsS "http://localhost:${GRAFANA_PORT}/api/health" >/dev/null; then
+              echo "Grafana is up"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Grafana did not become ready in time" >&2
+          docker compose logs grafana
+          exit 1
+
+      - name: Smoke test Grafana UI
+        run: |
+          curl -fsS "http://localhost:${GRAFANA_PORT}/" >/dev/null
+
+      - name: InfluxDB write/read integration test
+        run: |
+          curl -fsS -XPOST "http://localhost:${INFLUXDB_HTTP_PORT}/write?db=${INFLUX_DATABASE}" \
+            --data-binary "ci_test,source=github-actions value=1"
+          curl -fsS -G "http://localhost:${INFLUXDB_HTTP_PORT}/query" \
+            --data-urlencode "db=${INFLUX_DATABASE}" \
+            --data-urlencode "q=SELECT * FROM ci_test LIMIT 1" \
+            | grep -q "ci_test"
+
+      - name: InfluxDB schema validation
+        run: |
+          resp="$(curl -fsS -G "http://localhost:${INFLUXDB_HTTP_PORT}/query" \
+            --data-urlencode "db=${INFLUX_DATABASE}" \
+            --data-urlencode "q=SELECT source,value FROM ci_test ORDER BY time DESC LIMIT 1")"
+          echo "$resp" | grep -q "\"name\":\"ci_test\""
+          echo "$resp" | grep -q "\"columns\":\\[\"time\",\"source\",\"value\"\\]"
+          echo "$resp" | grep -q "github-actions"
+
+      - name: Cache Trivy DB
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/trivy
+          key: trivy-${{ runner.os }}-${{ github.sha }}
+          restore-keys: |
+            trivy-${{ runner.os }}-
+
+      - name: Security scan Telegraf image (Trivy)
+        uses: aquasecurity/trivy-action@v0.28.0
+        with:
+          image-ref: tig-stack-telegraf:local
+          severity: CRITICAL,HIGH
+          format: table
+          ignore-unfixed: true
+          exit-code: 1
+
+      - name: Security scan Grafana image (Trivy)
+        uses: aquasecurity/trivy-action@v0.28.0
+        with:
+          image-ref: matisq/grafana:${{ env.GRAFANA_TAG }}
+          severity: CRITICAL,HIGH
+          format: table
+          ignore-unfixed: true
+          exit-code: 1
+
+      - name: Security scan InfluxDB image (Trivy)
+        uses: aquasecurity/trivy-action@v0.28.0
+        with:
+          image-ref: matisq/influxdb:${{ env.INFLUXDB_TAG }}
+          severity: CRITICAL,HIGH
+          format: table
+          ignore-unfixed: true
+          exit-code: 1
+
+      - name: Generate SBOM (Telegraf image)
+        uses: anchore/sbom-action@v0.17.2
+        with:
+          image: tig-stack-telegraf:local
+          artifact-name: sbom-telegraf.spdx.json
+
+      - name: Upload SBOM
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom-telegraf.spdx.json
+
+      - name: Show logs on failure
+        if: failure()
+        run: docker compose logs
+
+      - name: Cleanup
+        if: always()
+        run: docker compose down -v
